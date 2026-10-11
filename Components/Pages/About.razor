@@ -1,0 +1,187 @@
+@page "/about"
+
+<PageTitle>Om projektet</PageTitle>
+
+<div class="about-page">
+
+    <section class="about-hero">
+
+        <div class="status-chip">
+            <span class="status-dot"></span>
+            Lokalt AI-projekt
+        </div>
+
+        <h1>Om projektet</h1>
+
+        <p>
+            AI Bug Report Generator är en .NET- och Blazor-baserad webbapplikation
+            som använder generativ AI för att omvandla vanliga felbeskrivningar
+            till strukturerade buggrapporter.
+        </p>
+
+    </section>
+
+    <section class="about-grid">
+
+        <div class="about-card about-card-large">
+
+            <span class="about-eyebrow">SYFTE</span>
+
+            <h2>Praktisk AI-integration i .NET</h2>
+
+            <p>
+                Syftet med applikationen är att undersöka hur generativ AI
+                kan integreras i en webbapplikation på ett praktiskt och
+                mer kontrollerat sätt.
+            </p>
+
+            <p>
+                Applikationen tar emot en felbeskrivning från användaren
+                och skickar den via ett server-side service-lager till en
+                lokal AI-modell. Resultatet returneras sedan som en
+                strukturerad buggrapport.
+            </p>
+
+        </div>
+
+        <div class="about-card">
+
+            <span class="about-eyebrow">AI-MODELL</span>
+
+            <h3>Llama 3.2</h3>
+
+            <p>
+                Modellen körs lokalt via Ollama istället för genom ett
+                externt AI-API.
+            </p>
+
+            <div class="about-tag">
+                Lokal behandling
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="architecture-section">
+
+        <div class="section-heading">
+            <span>ARKITEKTUR</span>
+            <h2>Så går ett anrop genom systemet</h2>
+        </div>
+
+        <div class="architecture-flow">
+
+            <div class="architecture-item">
+                <span class="architecture-number">01</span>
+                <h3>Användare</h3>
+                <p>Skriver en felbeskrivning i Blazor-gränssnittet.</p>
+            </div>
+
+            <div class="architecture-arrow">→</div>
+
+            <div class="architecture-item">
+                <span class="architecture-number">02</span>
+                <h3>Blazor</h3>
+                <p>Validerar input och skickar texten vidare.</p>
+            </div>
+
+            <div class="architecture-arrow">→</div>
+
+            <div class="architecture-item">
+                <span class="architecture-number">03</span>
+                <h3>C# Service</h3>
+                <p>Kontrollerar input och anropar Ollamas lokala API.</p>
+            </div>
+
+            <div class="architecture-arrow">→</div>
+
+            <div class="architecture-item">
+                <span class="architecture-number">04</span>
+                <h3>Llama 3.2</h3>
+                <p>Genererar den strukturerade buggrapporten.</p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="about-bottom-grid">
+
+        <div class="about-card">
+
+            <span class="about-eyebrow">TEKNIK</span>
+
+            <h2>Teknikstack</h2>
+
+            <div class="tech-list">
+
+                <div>
+                    <strong>.NET 10</strong>
+                    <span>Applikationsplattform</span>
+                </div>
+
+                <div>
+                    <strong>Blazor</strong>
+                    <span>Webbgränssnitt</span>
+                </div>
+
+                <div>
+                    <strong>C#</strong>
+                    <span>Backend och applikationslogik</span>
+                </div>
+
+                <div>
+                    <strong>Ollama</strong>
+                    <span>Lokalt AI-API</span>
+                </div>
+
+                <div>
+                    <strong>Llama 3.2</strong>
+                    <span>Generativ språkmodell</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="about-card">
+
+            <span class="about-eyebrow">SÄKERHET</span>
+
+            <h2>Flera kontrollsteg</h2>
+
+            <div class="security-list">
+
+                <div>
+                    <span>✓</span>
+                    <p>Tom input stoppas.</p>
+                </div>
+
+                <div>
+                    <span>✓</span>
+                    <p>För kort input stoppas för att minska dåliga AI-svar.</p>
+                </div>
+
+                <div>
+                    <span>✓</span>
+                    <p>Textlängden begränsas till 2000 tecken.</p>
+                </div>
+
+                <div>
+                    <span>✓</span>
+                    <p>Vissa prompt injection-försök stoppas i backend.</p>
+                </div>
+
+                <div>
+                    <span>✓</span>
+                    <p>Felhantering används om den lokala AI-tjänsten inte svarar.</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>

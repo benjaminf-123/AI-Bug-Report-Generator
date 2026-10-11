@@ -1,0 +1,132 @@
+﻿@page "/"
+
+<PageTitle>AI Bug Report Generator</PageTitle>
+
+<div class="home-page">
+
+    <section class="hero-section">
+        <div class="hero-copy">
+
+            <div class="status-chip">
+                <span class="status-dot"></span>
+                Lokal AI aktiv
+            </div>
+
+            <h1>
+                Skapa tydliga buggrapporter
+                med hjälp av AI
+            </h1>
+
+            <p class="hero-text">
+                Beskriv ett fel med vanlig text och få tillbaka
+                en strukturerad buggrapport med titel, beskrivning,
+                reproduktionssteg och resultat.
+            </p>
+
+            <div class="hero-actions">
+                <a href="/bugreport" class="btn btn-primary btn-lg">
+                    Skapa buggrapport
+                </a>
+
+                <a href="/about" class="btn btn-outline-secondary btn-lg">
+                    Läs om projektet
+                </a>
+            </div>
+
+            <div class="tech-row">
+                <span>.NET 10</span>
+                <span>Blazor</span>
+                <span>Ollama</span>
+                <span>Llama 3.2</span>
+            </div>
+        </div>
+
+        <div class="hero-preview">
+            <div class="preview-window">
+
+                <div class="preview-header">
+                    <div class="window-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+                    <span class="preview-title">
+                        AI Bug Report
+                    </span>
+                </div>
+
+                <div class="preview-body">
+
+                    <div class="preview-label">
+                        Felbeskrivning
+                    </div>
+
+                    <div class="preview-input">
+                        När jag klickar på Logga ut händer ingenting.
+                    </div>
+
+                    <div class="preview-arrow">
+                        ↓
+                    </div>
+
+                    <div class="preview-report">
+                        <span class="report-label">Titel</span>
+                        <strong>Utloggning fungerar inte</strong>
+
+                        <span class="report-label">Förväntat resultat</span>
+                        <p>Användaren ska loggas ut och skickas till inloggningssidan.</p>
+
+                        <span class="report-label">Faktiskt resultat</span>
+                        <p>Inget händer när användaren klickar på Logga ut.</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features-section">
+
+        <div class="section-heading">
+            <span>Funktioner</span>
+            <h2>En liten AI-lösning med tydligt fokus</h2>
+            <p>
+                Applikationen är byggd som en komprimerad prototyp
+                med fokus på funktionalitet, säkerhet och användbarhet.
+            </p>
+        </div>
+
+        <div class="feature-grid">
+
+            <div class="feature-card">
+                <div class="feature-icon">AI</div>
+                <h3>Strukturerade rapporter</h3>
+                <p>
+                    Felbeskrivningar omvandlas till tydliga
+                    och mer lättlästa buggrapporter.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">LOCAL</div>
+                <h3>Lokal AI</h3>
+                <p>
+                    Llama 3.2 körs lokalt genom Ollama
+                    istället för via ett externt AI-API.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">SAFE</div>
+                <h3>Säkerhetslager</h3>
+                <p>
+                    Inputvalidering och server-side kontroll
+                    används för att begränsa vissa typer av prompt injection.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+</div>

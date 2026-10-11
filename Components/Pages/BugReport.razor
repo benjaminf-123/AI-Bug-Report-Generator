@@ -1,0 +1,296 @@
+@page "/bugreport"
+@rendermode InteractiveServer
+
+@using AiBugReport.Services
+@inject AiBugReportService AiService
+
+<PageTitle>Skapa buggrapport</PageTitle>
+
+<div class="bug-page">
+
+    <div class="bug-page-header">
+
+        <div>
+            <div class="status-chip">
+                <span class="status-dot"></span>
+                Llama 3.2 · Lokal AI
+            </div>
+
+            <h1>Skapa buggrapport</h1>
+
+            <p>
+                Beskriv problemet med egna ord. AI-assistenten analyserar
+                texten och skapar en strukturerad buggrapport.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="bug-layout">
+
+        <section class="bug-editor">
+
+            <div class="panel-header">
+                <div>
+                    <span class="panel-number">01</span>
+                    <h2>Beskriv problemet</h2>
+                </div>
+            </div>
+
+            <p class="input-help">
+                För bästa resultat: beskriv vad du gjorde, vad du
+                förväntade dig och vad som faktiskt hände.
+            </p>
+
+            <textarea class="bug-textarea"
+                      maxlength="2000"
+                      placeholder="Exempel: När jag klickar på Logga ut händer ingenting. Jag förväntar mig att skickas tillbaka till inloggningssidan..."
+                      @bind="bugDescription"
+                      @bind:event="oninput">
+            </textarea>
+
+            <div class="input-footer">
+
+                <span>
+                    Minst 30 tecken
+                </span>
+
+                <span class="character-count">
+                    @bugDescription.Length / 2000
+                </span>
+
+            </div>
+
+            <div class="bug-actions">
+
+                <button class="btn btn-primary"
+                        @onclick="GenerateReport"
+                        disabled="@isLoading">
+
+                    @if (isLoading)
+                    {
+                        <span>AI arbetar...</span>
+                    }
+                    else
+                    {
+                        <span>Generera buggrapport →</span>
+                    }
+
+                </button>
+
+                <button class="btn btn-secondary"
+                        @onclick="Clear"
+                        disabled="@isLoading">
+
+                    Rensa
+
+                </button>
+
+            </div>
+
+        </section>
+
+        <aside class="bug-info-panel">
+
+            <span class="info-eyebrow">
+                SÅ FUNGERAR DET
+            </span>
+
+            <div class="info-step">
+                <span>1</span>
+
+                <div>
+                    <strong>Beskriv felet</strong>
+
+                    <p>
+                        Skriv vad som hände i applikationen.
+                    </p>
+                </div>
+            </div>
+
+            <div class="info-step">
+                <span>2</span>
+
+                <div>
+                    <strong>Texten valideras</strong>
+
+                    <p>
+                        Backend kontrollerar bland annat textlängd
+                        och vissa prompt injection-försök.
+                    </p>
+                </div>
+            </div>
+
+            <div class="info-step">
+                <span>3</span>
+
+                <div>
+                    <strong>Lokal AI analyserar</strong>
+
+                    <p>
+                        Llama 3.2 körs lokalt via Ollama.
+                    </p>
+                </div>
+            </div>
+
+            <div class="info-step">
+                <span>4</span>
+
+                <div>
+                    <strong>Rapport skapas</strong>
+
+                    <p>
+                        Resultatet struktureras som en buggrapport.
+                    </p>
+                </div>
+            </div>
+
+        </aside>
+
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(result))
+    {
+        <section class="result-section">
+
+            <div class="result-header">
+
+                <div>
+                    <span class="result-eyebrow">
+                        AI-RESULTAT
+                    </span>
+
+                    <h2>Genererad buggrapport</h2>
+                </div>
+
+                @if (responseTime > 0)
+                {
+                    <div class="response-badge">
+                        @responseTime ms
+                    </div>
+                }
+
+            </div>
+
+            <div class="result-content">
+
+                <pre>@result</pre>
+
+            </div>
+
+            @if (responseTime > 0)
+            {
+                <div class="result-meta">
+
+                    <span>
+                        Modell:
+                        <strong>Llama 3.2</strong>
+                    </span>
+
+                    <span>
+                        Körs lokalt via
+                        <strong>Ollama</strong>
+                    </span>
+
+                </div>
+            }
+
+        </section>
+    }
+
+</div>
+
+@code {
+
+    private string bugDescription = "";
+    private string result = "";
+
+    private bool isLoading = false;
+
+    private long responseTime = 0;
+
+
+    private async Task GenerateReport()
+    {
+        // Kontrollera att användaren har skrivit något.
+        if (string.IsNullOrWhiteSpace(bugDescription))
+        {
+            result =
+                "Du måste beskriva ett problem först.";
+
+            responseTime = 0;
+
+            return;
+        }
+
+
+        // För kort input ger ofta dåliga AI-resultat.
+        if (bugDescription.Trim().Length < 30)
+        {
+            result =
+                "Beskriv problemet mer detaljerat. " +
+                "Ange gärna vad du gjorde och vad som hände.";
+
+            responseTime = 0;
+
+            return;
+        }
+
+
+        // Extra kontroll av maximal textlängd.
+        if (bugDescription.Length > 2000)
+        {
+            result =
+                "Felbeskrivningen får vara maximalt 2000 tecken.";
+
+            responseTime = 0;
+
+            return;
+        }
+
+
+        try
+        {
+            isLoading = true;
+
+            result = "";
+
+            responseTime = 0;
+
+
+            var aiResult =
+                await AiService.GenerateBugReportAsync(
+                    bugDescription);
+
+
+            result =
+                aiResult.Report;
+
+
+            responseTime =
+                aiResult.ResponseTimeMilliseconds;
+        }
+        catch
+        {
+            result =
+                "Kunde inte generera buggrapporten. " +
+                "Kontrollera att AI-tjänsten körs och försök igen.";
+
+            responseTime = 0;
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+
+    private void Clear()
+    {
+        bugDescription = "";
+
+        result = "";
+
+        responseTime = 0;
+    }
+}
